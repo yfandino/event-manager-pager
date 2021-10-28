@@ -1,14 +1,16 @@
-import { Level, LevelType } from "../types";
+import { Level, LevelType, Target } from "../types";
 
 const NotificationAdapter = {
-  sendEmail: (level: Level): Promise<void> => new Promise(resolve => resolve()),
-  sendSMS: (level: Level): Promise<void> => new Promise(resolve => resolve()),
+  sendEmail: (target: Target): Promise<void> => new Promise(resolve => resolve()),
+  sendSMS: (target: Target): Promise<void> => new Promise(resolve => resolve()),
   sendNotification: function (level: Level) {
-    if (level.type === LevelType.EMAIL) {
-      this.sendEmail(level);
-    } else if (level.type === LevelType.SMS) {
-      this.sendSMS(level)
-    }
+    level.map(target => {
+      if (target.type === LevelType.EMAIL) {
+        this.sendEmail(target);
+      } else if (target.type === LevelType.SMS) {
+        this.sendSMS(target)
+      }
+    });
   }
 }
 
