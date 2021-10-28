@@ -1,4 +1,6 @@
-export type Level = {
+export type Level = Target[];
+
+export type Target = {
   type: LevelType,
   destination: string
 }

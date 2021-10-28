@@ -1,22 +1,10 @@
-import { PagerPersistenceItem, Persistence } from "../types";
+import { PagerPersistenceItem } from "../types";
+import db from "./Database";
 
+export function setItem(monitoredServiceId: string, lastLevelUserIndex: number, isHealthy: boolean): Promise<void> {
+  return db().set(monitoredServiceId, { lastLevelUserIndex, isHealthy });
+}
 
-const PagerPersistenceAdapter = (persistence: Persistence = {}) => ({
-  getItem(monitoredServiceId: string): Promise<PagerPersistenceItem> {
-    return new Promise(resolve => {
-      const item = persistence[monitoredServiceId];
-      resolve(item);
-    });
-  },
-  setItem(monitoredServiceId: string, lastLevelUserIndex: number, isHealthy: boolean): Promise<void> {
-    return new Promise(resolve => {
-      persistence[monitoredServiceId] = {
-        lastLevelUserIndex,
-        isHealthy
-      };
-      resolve();
-    });
-  }
-});
-
-export default PagerPersistenceAdapter;
+export function getItem(monitoredServiceId: string): Promise<PagerPersistenceItem> {
+  return db().get(monitoredServiceId) as Promise<PagerPersistenceItem>;
+}

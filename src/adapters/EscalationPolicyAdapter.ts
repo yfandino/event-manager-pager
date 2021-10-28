@@ -1,13 +1,6 @@
 import { EscalationPolicy } from "../types";
+import db from "./Database";
 
-type Input = {
-  [key: string]: EscalationPolicy
+export function getEscalationPolicy(monitoredServiceId: string): Promise<EscalationPolicy> {
+  return db().get(monitoredServiceId) as Promise<EscalationPolicy>;
 }
-
-const EscalationPolicyAdapter = (persistence: Input = {}) => ({
-  getEscalationPolicy(monitoredServiceId: string): Promise<EscalationPolicy> {
-    return new Promise(resolve => resolve(persistence[monitoredServiceId]));
-  }
-});
-
-export default EscalationPolicyAdapter;
